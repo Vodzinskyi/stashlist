@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="form">
+        <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Реєстрація</h2>
+        <form method="post" action="{% url 'create_user' %}" class="space-y-5 flex justify-center items-center">
+            {% csrf_token %}
+            <div class="my-4">
+                <input type="text" name="username" id="username" class="form-control form-control-lg rounded-3"
+                       placeholder="Username" />
+                <div class="text-red-500 text-sm">{{ form.username.errors }}</div>
+            </div>
+            <div class="my-4">
+                <input type="text" name="email" id="email" class="form-control form-control-lg rounded-3"
+                       placeholder="Email" />
+                <div class="text-red-500 text-sm">{{ form.email.errors }}</div>
+            </div>
+            <div class="my-4">
+                <input type="text" name="password" id="password" class="form-control form-control-lg rounded-3"
+                       placeholder="Пароль" />
+                <div class="text-red-500 text-sm">{{ form.password.errors }}</div>
+            </div>
+            <div class="my-4">
+                <input type="text" name="password_confirm" id="password_confirm" class="form-control form-control-lg rounded-3"
+                       placeholder="Повторіть пароль" />
+                <div class="text-red-500 text-sm">{{ form.password_confirm.errors }}</div>
+            </div>
+            <div class="d-flex justify-content-around">
+                <button type="submit" class="btn btn-primary w-100 mx-3">
+                    Зареєструватися
+                </button>
+                <button type="submit" class="btn btn-outline-primary w-100 mx-3">
+                    Скасувати
+                </button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
+
