@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.core',
     'apps.users',
+    'apps.lists',
 ]
 
 STATIC_URL = 'static/'

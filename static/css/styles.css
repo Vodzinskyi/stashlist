@@ -71,7 +71,10 @@ body {
     color: #E0E0E0;
 }
 
-
+.no-hover:hover {
+    background-color: transparent;
+    cursor: default;
+}
 
 
 

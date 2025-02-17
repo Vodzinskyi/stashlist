@@ -1,0 +1,20 @@
+<div class="sidebar" x-data="{ items: [], newItem: '' }">
+    <input x-model="newItem" type="text" placeholder="Введіть елемент" class="form-control mb-2">
+    <button @click="if(newItem) { items.push(newItem); newItem = ''; }" class="btn btn-success w-100">Додати</button>
+    <ul class="list-group my-2">
+        <template x-for="(item, index) in items" :key="index">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                x-data="{ showDelete: false }"
+                @mouseenter="showDelete = true"
+                @mouseleave="showDelete = false">
+                <span x-text="item"></span>
+                <button x-show="showDelete" @click="items.splice(index, 1)" class="btn btn-link p-0">
+                    <i class="bi bi-trash text-danger"></i>
+                </button>
+            </li>
+        </template>
+    </ul>
+</div>
+
+
+
