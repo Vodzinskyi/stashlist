@@ -7,16 +7,27 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-person"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-primary" href="{% url 'create_user' %}">Реєстрація</a>
-                    </li>
-                </ul>
+                <div class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" style="cursor: default" href="{% url 'logout_user' %}">Вийти</a>
+                                </li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div class="nav-item mx-2">
+                            <a class="btn btn-outline-primary" href="{% url 'login_user' %}">Вхід</a>
+                        </div>
+                        <div class="nav-item mx-2">
+                            <a class="btn btn-primary" href="{% url 'create_user' %}">Реєстрація</a>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
