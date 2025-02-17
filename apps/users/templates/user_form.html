@@ -1,0 +1,40 @@
+<!-- user_form.html -->
+<div x-data="{ open: false }"
+     x-on:open-modal.window="open = true"
+     x-on:close-modal.window="open = false"
+     x-show="open"
+     class="modal fade show"
+     style="display: block"
+     tabindex="-1"
+     aria-labelledby="registerModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Реєстрація</h5>
+                <button type="button" class="btn-close" x-on:click="open = false" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма реєстрації користувача -->
+                <form method="POST" hx-post="{% url 'create_user' %}" hx-target="#modal-response">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Ім'я користувача</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Електронна пошта</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Зареєструватися</button>
+                </form>
+                <!-- Місце для відповіді від сервера -->
+                <div id="modal-response"></div>
+            </div>
+        </div>
+    </div>
+</div>
