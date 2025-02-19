@@ -31,10 +31,11 @@ class ListDetailView(View):
 
     def get(self, request, pk):
         try:
-            item = List.objects.get(id=pk, owner=request.user)
+            media_list = List.objects.get(id=pk, owner=request.user)
+            media_items = media_list.items.all()
             if request.headers.get('HX-Request') == 'true':
-                return render(request, 'list.html', {'list': item})
-            return render(request, 'index.html', {'list': item})
+                return render(request, 'list.html', {'list': media_list, 'items': media_items})
+            return render(request, 'index.html', {'list': media_list, 'items': media_items})
         except List.DoesNotExist:
             return JsonResponse({"error": "Not found"}, status=404)
 
