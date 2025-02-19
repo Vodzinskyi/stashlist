@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% include 'navbar.html' %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                {% include 'sidebar.html' %}
-            </div>
-            <div class="col-md-9">
-                {% block main_content %}{% endblock %}
-            </div>
+    {% include 'navbar.html' %}
+    <div class="d-flex" style="height: calc(100vh - 100px); margin-top: 100px">
+        <div style="width: calc(20vw + 40px); min-width: 300px;">
+            {% include 'sidebar.html' %}
+        </div>
+        <div class="d-flex p-4" style="width: calc(80vw - 40px)">
+            {% include 'list.html' %}
         </div>
     </div>
 {% endblock %}
+
+
+
+
+
