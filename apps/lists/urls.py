@@ -1,8 +1,7 @@
 from django.urls import path
-from . import views
 from .views import ListView
 
 urlpatterns = [
-    path('lists/', ListView.as_view(), name='lists'),
-    path('lists/<int:pk>/', ListView.as_view(), name='lists'),
+    path('', ListView.as_view(), name='lists'),
+    path('<uuid:pk>/', ListView.as_view(), name='list_detail'),
 ]

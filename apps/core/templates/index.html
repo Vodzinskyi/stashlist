@@ -7,7 +7,11 @@
             {% include 'sidebar.html' %}
         </div>
         <div class="d-flex p-4" style="width: calc(80vw - 40px)">
-            {% include 'list.html' %}
+            <div id="list-container">
+                {% if list %}
+                    {% include "list.html" %}
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

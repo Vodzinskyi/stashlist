@@ -1,6 +1,6 @@
 from django.db import models
 
-from apps.users.models import User
+from django.contrib.auth.models import User
 
 
 class MediaItem(models.Model):

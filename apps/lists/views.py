@@ -1,6 +1,7 @@
 from urllib.parse import parse_qs
 
 from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -15,7 +16,9 @@ class ListView(View):
         if pk:
             try:
                 item = List.objects.get(id=pk, owner=request.user)
-                return JsonResponse({"id": item.id, "name": item.name})
+                if request.headers.get('HX-Request') == 'true':
+                    return render(request, 'list.html', {'list': item})
+                return render(request, 'index.html', {'list': item})
             except List.DoesNotExist:
                 return JsonResponse({"error": "Not found"}, status=404)
         else:
