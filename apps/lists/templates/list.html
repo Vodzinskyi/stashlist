@@ -1,8 +1,8 @@
 <div class="flex-grow-1">
     {% include 'modal.html' %}
-    <ul class="list-group mt-2" id="media-list" x-data="{ items: [] }" @add-item.window="items.push($event.detail)">
-        <template x-for="item in items" :key="item.id">
+    <ul class="list-group mt-2" id="media-list">
+        {% for item in items %}
             {% include 'media_item.html' %}
-        </template>
+        {% endfor %}
     </ul>
 </div>

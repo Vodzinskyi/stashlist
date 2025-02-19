@@ -1,7 +1,7 @@
 <li class="list-group-item media-element d-flex align-items-center" x-data="{showButtons: false}" @mouseenter="showButtons = true" @mouseleave="showButtons = false">
     <div class="d-flex flex-grow-1 align-items-center">
-        <h3 class="media-element-text" style="max-width: 600px; min-width: 400px; margin-right: 20px" x-text="item.title"></h3>
-        <h6 class="text-wrap p-2 media-element-text" x-text="item.description"></h6>
+        <h3 class="media-element-text" style="max-width: 600px; min-width: 400px; margin-right: 20px">{{ item.title }}</h3>
+        <h6 class="text-wrap p-2 media-element-text">{{ item.description }}</h6>
     </div>
     <div class="align-self-start" style="min-width: 26px">
         <button x-show="showButtons" class="btn btn-link p-0 mx-1">

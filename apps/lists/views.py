@@ -7,24 +7,11 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import List
+from ..media_items.models import MediaItem
+
 
 @method_decorator([csrf_exempt], name='dispatch')
 class ListView(View):
-    http_method_names = ['get', 'post', 'patch', 'delete']
-
-    def get(self, request, pk=None):
-        if pk:
-            try:
-                item = List.objects.get(id=pk, owner=request.user)
-                if request.headers.get('HX-Request') == 'true':
-                    return render(request, 'list.html', {'list': item})
-                return render(request, 'index.html', {'list': item})
-            except List.DoesNotExist:
-                return JsonResponse({"error": "Not found"}, status=404)
-        else:
-            lists = List.objects.filter(owner=request.user).values("id", "name")
-            return JsonResponse(list(lists), safe=False)
-
 
     def post(self, request):
         name = request.POST.get('name')
@@ -33,27 +20,52 @@ class ListView(View):
             return JsonResponse({"id": new_list.id, "name": new_list.name})
         return JsonResponse({"error": "Invalid request"}, status=400)
 
+    def get(self, request):
+        lists = List.objects.filter(owner=request.user).values("id", "name")
+        return JsonResponse(list(lists), safe=False)
 
-    def patch(self, request, pk):
+
+@method_decorator([csrf_exempt], name='dispatch')
+class ListDetailView(View):
+    http_method_names = ['get', 'post', 'patch', 'delete']
+
+    def get(self, request, pk):
         try:
             item = List.objects.get(id=pk, owner=request.user)
-            body = parse_qs(request.body.decode('utf-8'))
-            name = body.get('name', [None])[0]
-            if name:
-                item.name = name
-                item.save()
-                return HttpResponse(status=204)
-            return JsonResponse({"error": "Name is required"}, status=400)
-
+            if request.headers.get('HX-Request') == 'true':
+                return render(request, 'list.html', {'list': item})
+            return render(request, 'index.html', {'list': item})
         except List.DoesNotExist:
             return JsonResponse({"error": "Not found"}, status=404)
 
+    def post(self, request, pk):
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        media_item = MediaItem.objects.create(title=title, description=description, owner=request.user)
+        media_list = List.objects.get(pk=pk)
+        media_list.items.add(media_item)
+        return render(request, 'media_item.html', {'item': media_item})
 
-    def delete(self, request, pk):
-        try:
-            item = List.objects.get(id=pk, owner=request.user)
-            item.delete()
-            return JsonResponse({"success": True})
-        except List.DoesNotExist:
-            return JsonResponse({"error": "Not found"}, status=404)
 
+def patch(self, request, pk):
+    try:
+        item = List.objects.get(id=pk, owner=request.user)
+        body = parse_qs(request.body.decode('utf-8'))
+        name = body.get('name', [None])[0]
+        if name:
+            item.name = name
+            item.save()
+            return HttpResponse(status=204)
+        return JsonResponse({"error": "Name is required"}, status=400)
+
+    except List.DoesNotExist:
+        return JsonResponse({"error": "Not found"}, status=404)
+
+
+def delete(self, request, pk):
+    try:
+        item = List.objects.get(id=pk, owner=request.user)
+        item.delete()
+        return JsonResponse({"success": True})
+    except List.DoesNotExist:
+        return JsonResponse({"error": "Not found"}, status=404)
