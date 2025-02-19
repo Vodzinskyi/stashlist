@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.users',
     'apps.lists',
+    'apps.media_items'
 ]
 
 STATIC_URL = 'static/'

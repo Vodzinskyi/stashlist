@@ -1,15 +1,11 @@
-<div x-data="{}">
+<div x-data="{ title: '', description: '' }">
     <button @click="$refs.dialogRef.showModal()" class="btn btn-primary">Добавити +</button>
     <dialog x-ref="dialogRef" class="rounded-lg shadow-lg p-4 modal-window">
-        <input type="text" name="title" id="title" class="form-control form-control-lg rounded-3 my-3"
-               placeholder="Назва"/>
-        <textarea type="text" name="description" id="description" class="form-control form-control-lg rounded-3 my-3"
-                  style="height: 200px" placeholder="Опис"></textarea>
+        <input type="text" x-model="title" class="form-control form-control-lg rounded-3 my-3" placeholder="Назва" required />
+        <textarea x-model="description" class="form-control form-control-lg rounded-3 my-3" style="height: 200px" placeholder="Опис" required></textarea>
         <div class="d-flex justify-content-around">
-            <button class="btn btn-primary">Створити</button>
-            <form method="dialog">
-                <button class="btn btn-primary">Скасувати</button>
-            </form>
+            <button type="button" class="btn btn-primary" @click="$dispatch('add-item', {id: crypto.randomUUID(), title: title, description: description }); title = ''; description = ''; $refs.dialogRef.close();">Створити</button>
+            <button type="button" class="btn btn-primary" @click="$refs.dialogRef.close(); title = ''; description = ''">Скасувати</button>
         </div>
     </dialog>
 </div>

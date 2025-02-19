@@ -1,26 +1,8 @@
 <div class="flex-grow-1">
     {% include 'modal.html' %}
-    {% comment %}<button class="btn btn-primary">
-        Добавити +
-    </button>{% endcomment %}
-    <ul class="list-group mt-2">
-        <li class="list-group-item media-element d-flex align-items-center" x-data="{showButtons: false}"
-            @mouseenter="showButtons = true"
-            @mouseleave="showButtons = false">
-             <div class="d-flex flex-grow-1">
-                <h3 style="max-width: 600px; min-width: 400px; margin-right: 20px" >Назва</h3>
-                <h6>опис</h6>
-            </div>
-
-            <div class="align-self-start">
-                <button x-show="showButtons" class="btn btn-link p-0 mx-1">
-                    <i class="bi bi-pencil"></i>
-                </button>
-                <button x-show="showButtons"
-                        class="btn btn-link p-0 mx-1">
-                    <i class="bi bi-trash text-danger"></i>
-                </button>
-            </div>
-        </li>
+    <ul class="list-group mt-2" id="media-list" x-data="{ items: [] }" @add-item.window="items.push($event.detail)">
+        <template x-for="item in items" :key="item.id">
+            {% include 'media_item.html' %}
+        </template>
     </ul>
 </div>
