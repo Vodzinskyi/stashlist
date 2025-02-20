@@ -1,5 +1,6 @@
 from urllib.parse import parse_qs
 
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -16,17 +17,19 @@ class ListView(View):
 
     def post(self, request):
         name = request.POST.get('name')
-        if name:
+        if name and request.user.is_authenticated:
             new_list = List.objects.create(name=name, owner=request.user)
             return JsonResponse({"id": new_list.id, "name": new_list.name})
-        return JsonResponse({"error": "Invalid request"}, status=400)
+        return HttpResponse(status=403)
 
     def get(self, request):
-        lists = List.objects.filter(owner=request.user).values("id", "name")
-        return JsonResponse(list(lists), safe=False)
+        if request.user.is_authenticated:
+            lists = List.objects.filter(owner=request.user).values("id", "name")
+            return JsonResponse(list(lists), safe=False)
+        return JsonResponse({"error": "Invalid request"}, status=400)
 
 
-@method_decorator([csrf_exempt], name='dispatch')
+@method_decorator([login_required, csrf_exempt], name='dispatch')
 class ListDetailView(View):
     http_method_names = ['get', 'post', 'patch', 'delete']
 

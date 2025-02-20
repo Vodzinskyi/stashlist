@@ -1,19 +1,18 @@
-<li class="list-group-item media-element d-flex align-items-center"
+<li class="list-group-item list-group-media-item media-element d-flex align-items-center"
     x-data="{ showButtons: false, editing: false, title: '{{ item.title|escapejs }}', description: '{{ item.description|escapejs }}' }"
     @mouseenter="showButtons = true" @mouseleave="showButtons = false"
-    @click.away="editing = false; if (title !== '{{ item.title }}' || description !== {{ item.description }}) {
-    htmx.ajax('PATCH', `{{ request.path }}media-items/{{ item.id }}/`, {values: { title: title, description: description }});}">
+    @click.away="editing = false; if (title !== '{{ item.title|escapejs  }}' || description !== '{{ item.description|escapejs }}') { htmx.ajax('PATCH', '{{ request.path }}media-items/{{ item.id }}/', {values: { title: title, description: description }}); }">
     <template x-if="!editing">
         <div class="d-flex flex-grow-1 align-items-center">
             <h3 class="media-element-text"
                 style="max-width: 600px; min-width: 400px; margin-right: 20px" x-text="title"></h3>
-            <h6 class="text-wrap p-2 media-element-text" x-text="description"></h6>
+            <h6 class="p-2 media-element-text" x-text="description" style="white-space: pre-wrap"></h6>
         </div>
     </template>
     <template x-if="editing">
         <div class="d-flex flex-grow-1 align-items-center">
-            <input class="media-element-text" style="max-width: 600px; min-width: 400px; margin-right: 20px" x-model="title" type="text">
-            <input class="media-element-text" x-model="description" type="text">
+            <input class="media-element-text form-control" style="max-width: 600px; min-width: 400px; margin-right: 20px" x-model="title" type="text">
+            <textarea class="media-element-text form-control" x-model="description" type="text"></textarea>
         </div>
     </template>
     <div class="align-self-start" style="min-width: 26px">

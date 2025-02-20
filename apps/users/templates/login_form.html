@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="form">
+    <div class="form d-flex flex-column justify-content-center">
         <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Вхід</h2>
         <form method="post" action="{% url 'login_user' %}" class="space-y-5 flex justify-center items-center">
             {% csrf_token %}
@@ -23,10 +23,10 @@
                 </div>
             {% endif %}
             <div class="d-flex justify-content-around">
-                <button type="submit" class="btn btn-primary w-100 mx-3">
+                <button type="submit" class="btn btn-dark w-100 mx-3">
                     Увійти
                 </button>
-                <button class="btn btn-outline-primary w-100 mx-3"
+                <button class="btn btn-outline-dark w-100 mx-3"
                 hx-get="{% url 'create_user' %}" hx-target="body" hx-push-url="true">
                     Зареєструватись
                 </button>

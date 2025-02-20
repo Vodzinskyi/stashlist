@@ -1,5 +1,5 @@
 <div x-data="{ title: '', description: '' }">
-    <button @click="$refs.dialogRef.showModal()" class="btn btn-primary">Добавити +</button>
+    <button @click="$refs.dialogRef.showModal()" class="btn btn-dark modal-button">Створити</button>
     <dialog x-ref="dialogRef" class="rounded-lg shadow-lg p-4 modal-window">
         <form hx-post="{{ request.path }}"
               hx-target="#media-list"
@@ -15,14 +15,13 @@
                       x-model="description"
                       class="form-control form-control-lg rounded-3 my-3"
                       style="height: 200px"
-                      placeholder="Опис"
-                      required></textarea>
+                      placeholder="Опис"></textarea>
             <div class="d-flex justify-content-around">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-dark">
                     Створити
                 </button>
                 <button type="button"
-                        class="btn btn-primary"
+                        class="btn btn-dark"
                         @click="$refs.dialogRef.close(); title = ''; description = ''">
                     Скасувати
                 </button>

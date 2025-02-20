@@ -2,10 +2,12 @@
         .then(res => res.json())
         .then(data => items = data)">
     <form hx-post="{% url 'lists' %}" hx-swap="none"
-          @htmx:after-request="items.push(JSON.parse(event.detail.xhr.response)); listName = ''">
+          @htmx:after-request="if (event.detail.xhr.status === 200) { items.push(JSON.parse(event.detail.xhr.response)); listName = ''}
+          else if (event.detail.xhr.status === 403) { window.location.href = '{% url 'login_user' %}'; }">
         {% csrf_token %}
-        <input x-model="listName" type="text" name="name" placeholder="Введіть назву списку" class="form-control mb-2">
-        <button type="submit" class="btn btn-success w-100">Додати</button>
+        <input x-model="listName" type="text" name="name" placeholder="Введіть назву списку" class="form-control mb-2"
+               required>
+        <button type="submit" class="btn btn-dark w-100">Додати</button>
     </form>
     <div class="list-container">
         <ul class="list-group my-2">

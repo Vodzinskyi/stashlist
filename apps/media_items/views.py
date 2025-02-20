@@ -1,6 +1,7 @@
 import json
 from urllib.parse import parse_qs
 
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -10,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from apps.media_items.models import MediaItem
 
 
-@method_decorator([csrf_exempt], name='dispatch')
+@method_decorator([login_required, csrf_exempt], name='dispatch')
 class MediaItemView(View):
 
     def patch(self, request, list_id, pk):
