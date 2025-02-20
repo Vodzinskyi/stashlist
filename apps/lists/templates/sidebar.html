@@ -7,34 +7,37 @@
         <input x-model="listName" type="text" name="name" placeholder="Введіть назву списку" class="form-control mb-2">
         <button type="submit" class="btn btn-success w-100">Додати</button>
     </form>
-    <ul class="list-group my-2">
-        <template x-for="(item, index) in items" :key="item.id">
-            <li class="list-group-item d-flex justify-content-between align-items-center position-relative"
-                x-data="{ showButtons: false, editing: false, editedName: item.name}"
-                @click="htmx.ajax('GET', `/lists/${item.id}/`, {target: document.querySelector('#list-container'), swap: 'innerHTML'});
+    <div class="list-container">
+        <ul class="list-group my-2">
+            <template x-for="(item, index) in items" :key="item.id">
+                <li class="list-group-item d-flex justify-content-between align-items-center position-relative"
+                    x-data="{ showButtons: false, editing: false, editedName: item.name}"
+                    @click="htmx.ajax('GET', `/lists/${item.id}/`, {target: document.querySelector('#list-container'), swap: 'innerHTML'});
                         history.pushState({}, '', `/lists/${item.id}/`);"
-                @mouseenter="showButtons = true"
-                @mouseleave="showButtons = false"
-                @click.away="editing = false; if(editedName !== item.name) { item.name = editedName; htmx.ajax('PATCH', `/lists/${item.id}/`, {
+                    @mouseenter="showButtons = true"
+                    @mouseleave="showButtons = false"
+                    @click.away="editing = false; if(editedName !== item.name) { item.name = editedName; htmx.ajax('PATCH', `/lists/${item.id}/`, {
                         target: $el.closest('li'), values: { name: item.name }});}">
-                <template x-if="editing">
-                    <input x-model="editedName" type="text" class="form-control">
-                </template>
-                <template x-if="!editing">
-                    <span x-text="item.name"></span>
-                </template>
-                <div class="position-absolute end-0 top-50 translate-middle-y">
-                    <button x-show="showButtons && !editing" @click.stop="editing = true" class="btn btn-link p-0 mx-1">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button x-show="showButtons && !editing"
-                            @click="htmx.ajax('DELETE', `/lists/${item.id}/`, {target: $el.closest('li')});
+                    <template x-if="editing">
+                        <input x-model="editedName" type="text" class="form-control">
+                    </template>
+                    <template x-if="!editing">
+                        <span x-text="item.name"></span>
+                    </template>
+                    <div class="position-absolute end-0 top-50 translate-middle-y">
+                        <button x-show="showButtons && !editing" @click.stop="editing = true"
+                                class="btn btn-link p-0 mx-1">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button x-show="showButtons && !editing"
+                                @click="htmx.ajax('DELETE', `/lists/${item.id}/`, {target: $el.closest('li')});
                                     items.splice(index, 1)"
-                            class="btn btn-link p-0 mx-1">
-                        <i class="bi bi-trash text-danger"></i>
-                    </button>
-                </div>
-            </li>
-        </template>
-    </ul>
+                                class="btn btn-link p-0 mx-1">
+                            <i class="bi bi-trash text-danger"></i>
+                        </button>
+                    </div>
+                </li>
+            </template>
+        </ul>
+    </div>
 </div>

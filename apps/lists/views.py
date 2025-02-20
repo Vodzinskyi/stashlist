@@ -2,6 +2,7 @@ from urllib.parse import parse_qs
 
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -64,10 +65,16 @@ class ListDetailView(View):
     def delete(self, request, pk):
         try:
             item = List.objects.get(id=pk, owner=request.user)
+            is_current = request.headers.get('HX-Current-URL', '').endswith(f'/lists/{pk}/')
             item.delete()
+            if is_current:
+                return HttpResponse("", headers={
+                    "HX-Reswap": "innerHTML",
+                    "HX-Retarget": "#list-container",
+                    "HX-Redirect": reverse('index')
+                })
             return JsonResponse({"success": True})
         except List.DoesNotExist:
             return JsonResponse({"error": "Not found"}, status=404)
-
 
 

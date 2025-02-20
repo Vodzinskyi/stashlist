@@ -26,7 +26,8 @@
                 <button type="submit" class="btn btn-primary w-100 mx-3">
                     Увійти
                 </button>
-                <button class="btn btn-outline-primary w-100 mx-3">
+                <button class="btn btn-outline-primary w-100 mx-3"
+                hx-get="{% url 'create_user' %}" hx-target="body" hx-push-url="true">
                     Зареєструватись
                 </button>
             </div>
