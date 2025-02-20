@@ -99,3 +99,9 @@ body {
     max-height: 100px;
     overflow-y: auto;
 }
+
+.media-element-title {
+    max-width: 600px;
+    min-width: 400px;
+    margin-right: 20px
+}

@@ -47,26 +47,27 @@ class ListDetailView(View):
         media_list.items.add(media_item)
         return render(request, 'media_item.html', {'item': media_item})
 
+    def patch(self, request, pk):
+        try:
+            item = List.objects.get(id=pk, owner=request.user)
+            body = parse_qs(request.body.decode('utf-8'))
+            name = body.get('name', [None])[0]
+            if name:
+                item.name = name
+                item.save()
+                return HttpResponse(status=204)
+            return JsonResponse({"error": "Name is required"}, status=400)
 
-def patch(self, request, pk):
-    try:
-        item = List.objects.get(id=pk, owner=request.user)
-        body = parse_qs(request.body.decode('utf-8'))
-        name = body.get('name', [None])[0]
-        if name:
-            item.name = name
-            item.save()
-            return HttpResponse(status=204)
-        return JsonResponse({"error": "Name is required"}, status=400)
+        except List.DoesNotExist:
+            return JsonResponse({"error": "Not found"}, status=404)
 
-    except List.DoesNotExist:
-        return JsonResponse({"error": "Not found"}, status=404)
+    def delete(self, request, pk):
+        try:
+            item = List.objects.get(id=pk, owner=request.user)
+            item.delete()
+            return JsonResponse({"success": True})
+        except List.DoesNotExist:
+            return JsonResponse({"error": "Not found"}, status=404)
 
 
-def delete(self, request, pk):
-    try:
-        item = List.objects.get(id=pk, owner=request.user)
-        item.delete()
-        return JsonResponse({"success": True})
-    except List.DoesNotExist:
-        return JsonResponse({"error": "Not found"}, status=404)
+
